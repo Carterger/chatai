@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chat - PWA</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    <meta name="theme-color" content="#ffffff">
+</head>
+<body>
+    <div class="chat-container">
+        <h1>AI Chat</h1>
+        <div id="chat-box" class="chat-box"></div>
+        <div class="input-container">
+            <input type="text" id="user-input" placeholder="Спроси меня что-нибудь...">
+            <button onclick="sendMessage()">Отправить</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
