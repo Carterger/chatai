@@ -2,7 +2,7 @@ const chatBox = document.getElementById('chat-box');
 const userInput = document.getElementById('user-input');
 
 // Твой токен от Hugging Face
-const HF_TOKEN = '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'; // Замени на свой токен
+const HF_TOKEN = 'hf_твой_токен_здесь'; // Замени на свой токен
 
 function addMessage(message, isUser = false) {
     const messageDiv = document.createElement('div');
@@ -24,33 +24,40 @@ async function sendMessage() {
     addMessage(message, true);
     userInput.value = '';
 
-    // Получаем ответ от нейросети
+    // Получаем ответ от Mistral
     const response = await getAIResponse(message);
     addMessage(response);
 }
 
 async function getAIResponse(message) {
     try {
-        const response = await fetch('https://api-inference.huggingface.co/models/facebook/blenderbot-400M-distill', {
+        const response = await fetch('https://api-inference.huggingface.co/models/mixtral-8x7b-instruct-v0.1', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${HF_TOKEN}`,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ inputs: message })
+            body: JSON.stringify({
+                inputs: message,
+                parameters: {
+                    max_new_tokens: 100, // Ограничение длины ответа
+                    temperature: 0.7,    // Контроль креативности (0.5-1.0)
+                    top_p: 0.9           // Фильтр вероятностей
+                }
+            })
         });
 
         const data = await response.json();
 
-        // Проверяем, есть ли ответ, и возвращаем его
+        // Проверяем, есть ли ответ
         if (data && data.generated_text) {
             return data.generated_text;
         } else {
-            return "Извини, что-то пошло не так. Попробуй еще раз!";
+            return "Извини, Mistral не ответил. Попробуй еще раз!";
         }
     } catch (error) {
         console.error('Ошибка:', error);
-        return "Ошибка подключения к нейросети. Проверь интернет или токен.";
+        return "Ошибка подключения к Mistral. Проверь токен или интернет.";
     }
 }
 
