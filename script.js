@@ -2,7 +2,7 @@ const chatBox = document.getElementById('chat-box');
 const userInput = document.getElementById('user-input');
 
 // Твой токен от Hugging Face
-const HF_TOKEN = 'hf_твой_токен_здесь'; // Замени на свой токен
+const HF_TOKEN = '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'; // Замени на свой токен
 
 function addMessage(message, isUser = false) {
     const messageDiv = document.createElement('div');
@@ -34,7 +34,7 @@ async function getAIResponse(message) {
         const response = await fetch('https://api-inference.huggingface.co/models/facebook/blenderbot-400M-distill', {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${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}`,
+                'Authorization': `Bearer ${HF_TOKEN}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ inputs: message })
