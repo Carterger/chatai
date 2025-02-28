@@ -2,7 +2,7 @@ const chatBox = document.getElementById('chat-box');
 const userInput = document.getElementById('user-input');
 
 // Твой токен от Hugging Face
-const HF_TOKEN = 'hf_твой_токен_здесь'; // Замени на свой токен
+const HF_TOKEN = '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'; // Замени на свой токен
 
 function addMessage(message, isUser = false) {
     const messageDiv = document.createElement('div');
