@@ -1,4 +1,3 @@
-/* Сбрасываем базовые стили */
 * {
     margin: 0;
     padding: 0;
@@ -6,44 +5,184 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "San Francisco", sans-serif;
-    background-color: #f5f5f7;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(135deg, #0a0a23 0%, #1a1a3d 100%);
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 15px;
+    transition: background 0.5s ease;
+}
+
+body.light {
+    background: linear-gradient(135deg, #e0e7ff 0%, #f9faff 100%);
 }
 
 .chat-container {
-    background: #fff;
-    border-radius: 18px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     width: 90%;
-    max-width: 600px;
+    max-width: 800px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    height: 90vh;
+    max-height: 900px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+body.light .chat-container {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+header {
     padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+body.light header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 h1 {
-    font-size: 28px;
-    font-weight: 600;
-    color: #1d1d1f;
-    text-align: center;
-    margin-bottom: 15px;
+    font-size: 26px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.5px;
+}
+
+body.light h1 {
+    color: #1a1a3d;
+}
+
+#theme-toggle, #clear-chat {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    padding: 8px;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+body.light #theme-toggle, body.light #clear-chat {
+    color: #1a1a3d;
+}
+
+#theme-toggle:hover, #clear-chat:hover {
+    transform: scale(1.1);
 }
 
 .chat-box {
-    width: 100%;
-    height: 400px; /* Фиксированная высота для начала */
-    border: 1px solid #d2d2d7;
-    border-radius: 10px;
-    background: #fafafa;
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background: transparent;
+}
+
+.message {
+    padding: 12px 18px;
+    margin: 10px 0;
+    border-radius: 15px;
+    max-width: 75%;
+    font-size: 16px;
+    line-height: 1.4;
+    backdrop-filter: blur(5px);
+    transition: transform 0.2s ease;
+}
+
+.message:hover {
+    transform: translateY(-2px);
+}
+
+.message.user {
+    background: linear-gradient(135deg, #00d4ff, #007aff);
+    color: #fff;
+    margin-left: auto;
+}
+
+.message.ai {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+body.light .message.ai {
+    background: rgba(0, 0, 0, 0.05);
+    color: #1a1a3d;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.message.thinking {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ccc;
+    font-style: italic;
+    opacity: 0.8;
+}
+
+body.light .message.thinking {
+    background: rgba(0, 0, 0, 0.05);
+    color: #666;
+}
+
+.input-container {
+    display: flex;
+    padding: 20px;
+    background: transparent;
+}
+
+#user-input {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-size: 16px;
+    outline: none;
+    transition: background 0.3s ease;
+}
+
+#user-input:focus {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+body.light #user-input {
+    background: rgba(255, 255, 255, 0.9);
+    color: #1a1a3d;
+}
+
+body.light #user-input:focus {
+    background: #fff;
+}
+
+.input-container button {
+    margin-left: 10px;
+    padding: 14px;
+    background: linear-gradient(135deg, #ff6bcb, #8b5cf6);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.input-container button:hover {
+    transform: scale(1.05);
 }
 
 /* Адаптивность */
 @media (max-width: 480px) {
     .chat-container {
         width: 95%;
-        padding: 10px;
+        height: 95vh;
     }
 
     h1 {
@@ -51,16 +190,20 @@ h1 {
     }
 
     .chat-box {
-        height: 300px;
-    }
-}
-
-@media (min-width: 481px) and (max-width: 768px) {
-    .chat-container {
-        width: 85%;
+        padding: 15px;
     }
 
-    .chat-box {
-        height: 350px;
+    .message {
+        font-size: 14px;
+        padding: 10px 14px;
+    }
+
+    #user-input {
+        font-size: 14px;
+        padding: 12px;
+    }
+
+    .input-container button {
+        padding: 12px;
     }
 }
