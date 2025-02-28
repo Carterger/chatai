@@ -21,21 +21,10 @@ async function sendMessage() {
     addMessage(message, true);
     userInput.value = '';
 
-    // Пример ответа от "Grok" (заглушка)
-    const response = await getAIResponse(message);
-    addMessage(response);
-}
-
-async function getAIResponse(message) {
-    // Здесь можно подключить Hugging Face Inference API
-    // Пример заглушки:
-    return `Привет! Ты написал: "${message}". Я Grok, как могу помочь?`;
-    // Реальный API пример:
-    /*
     const response = await fetch('https://api-inference.huggingface.co/models/facebook/blenderbot-400M-distill', {
         method: 'POST',
         headers: {
-            'Authorization': 'Bearer YOUR_HF_TOKEN',
+            'Authorization': 'Bearer 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',
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({ inputs: message })
