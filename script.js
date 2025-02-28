@@ -2,7 +2,7 @@ const chatBox = document.getElementById('chat-box');
 const userInput = document.getElementById('user-input');
 
 // Твой токен от Hugging Face
-const HF_TOKEN = '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'; // Замени на свой токен
+const HF_TOKEN = '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'; // Убедись, что он правильный
 
 function addMessage(message, isUser = false) {
     const messageDiv = document.createElement('div');
@@ -24,7 +24,6 @@ async function sendMessage() {
     addMessage(message, true);
     userInput.value = '';
 
-    // Получаем ответ от Mistral
     const response = await getAIResponse(message);
     addMessage(response);
 }
@@ -40,24 +39,31 @@ async function getAIResponse(message) {
             body: JSON.stringify({
                 inputs: message,
                 parameters: {
-                    max_new_tokens: 100, // Ограничение длины ответа
-                    temperature: 0.7,    // Контроль креативности (0.5-1.0)
-                    top_p: 0.9           // Фильтр вероятностей
+                    max_new_tokens: 100,
+                    temperature: 0.7,
+                    top_p: 0.9
                 }
             })
         });
 
-        const data = await response.json();
+        // Выводим статус ответа в консоль
+        console.log('Статус ответа:', response.status);
 
-        // Проверяем, есть ли ответ
+        if (!response.ok) {
+            throw new Error(`Ошибка HTTP: ${response.status} - ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log('Ответ от API:', data); // Выводим весь ответ для отладки
+
         if (data && data.generated_text) {
             return data.generated_text;
         } else {
-            return "Извини, Mistral не ответил. Попробуй еще раз!";
+            return "Mistral не вернул ответ. Возможно, проблема с моделью.";
         }
     } catch (error) {
-        console.error('Ошибка:', error);
-        return "Ошибка подключения к Mistral. Проверь токен или интернет.";
+        console.error('Подробная ошибка:', error);
+        return `Ошибка подключения: ${error.message}. Проверь консоль (F12) для деталей.`;
     }
 }
 
