@@ -1,10 +1,10 @@
 {
-    "name": "AI Chat PWA",
-    "short_name": "AI Chat",
+    "name": "Gemini Chat PWA",
+    "short_name": "Gemini Chat",
     "start_url": "/index.html",
     "display": "standalone",
-    "background_color": "#f5f5f7",
-    "theme_color": "#ffffff",
+    "background_color": "#0a0a23",
+    "theme_color": "#8b5cf6",
     "icons": [
         {
             "src": "icons/icon-192x192.png",
