@@ -1,39 +1,29 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gemini Chat</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="manifest" href="manifest.json">
-    <link rel="icon" href="icons/icon-192x192.png" type="image/png">
-    <meta name="theme-color" content="#0a0a23">
+    <link rel="manifest" href="/manifest.json">  <!-- Убедитесь, что путь правильный -->
+    <meta name="theme-color" content="#8b5cf6"> <!-- Добавьте, если нет. Соответствует theme_color в manifest.json -->
 </head>
 <body>
     <div class="chat-container">
         <header>
             <h1>Gemini Chat</h1>
-            <button id="theme-toggle" aria-label="Переключить тему">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                </svg>
-            </button>
-            <button id="clear-chat" aria-label="Очистить чат">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6h14z"></path>
-                </svg>
-            </button>
+            <div>
+                <button id="theme-toggle">Toggle Theme</button>
+                <button id="clear-chat">Clear Chat</button>
+            </div>
         </header>
         <div class="chat-box" id="chat-box"></div>
-        <form class="input-container" id="chat-form">
-            <input type="text" id="user-input" placeholder="Ask Gemini..." autocomplete="off">
-            <button type="submit">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M5 12h14M12 5l7 7-7 7"></path>
-                </svg>
-            </button>
-        </form>
+        <div class="input-container">
+            <input type="text" id="user-input" placeholder="Type your message...">
+            <button type="submit" form="chat-form">Send</button>
+        </div>
     </div>
-    <script src="script.js"></script>
+    <form id="chat-form" style="display: none;"></form> <!-- Скрытая форма -->
+    <script src="script.js"></script>  <!-- Убедитесь, что путь правильный -->
 </body>
 </html>
