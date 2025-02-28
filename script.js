@@ -1,6 +1,9 @@
 const chatBox = document.getElementById('chat-box');
 const userInput = document.getElementById('user-input');
 
+// Твой токен от Hugging Face
+const HF_TOKEN = 'hf_твой_токен_здесь'; // Замени на свой токен
+
 function addMessage(message, isUser = false) {
     const messageDiv = document.createElement('div');
     messageDiv.textContent = message;
@@ -21,17 +24,34 @@ async function sendMessage() {
     addMessage(message, true);
     userInput.value = '';
 
-    const response = await fetch('https://api-inference.huggingface.co/models/facebook/blenderbot-400M-distill', {
-        method: 'POST',
-        headers: {
-            'Authorization': 'Bearer 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',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ inputs: message })
-    });
-    const data = await response.json();
-    return data.generated_text || "Извини, я не понял.";
-    */
+    // Получаем ответ от нейросети
+    const response = await getAIResponse(message);
+    addMessage(response);
+}
+
+async function getAIResponse(message) {
+    try {
+        const response = await fetch('https://api-inference.huggingface.co/models/facebook/blenderbot-400M-distill', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${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}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ inputs: message })
+        });
+
+        const data = await response.json();
+
+        // Проверяем, есть ли ответ, и возвращаем его
+        if (data && data.generated_text) {
+            return data.generated_text;
+        } else {
+            return "Извини, что-то пошло не так. Попробуй еще раз!";
+        }
+    } catch (error) {
+        console.error('Ошибка:', error);
+        return "Ошибка подключения к нейросети. Проверь интернет или токен.";
+    }
 }
 
 userInput.addEventListener('keypress', (e) => {
