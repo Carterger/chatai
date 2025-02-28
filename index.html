@@ -3,18 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Chat - PWA</title>
+    <title>Gemini Chat</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
-    <meta name="theme-color" content="#ffffff">
+    <link rel="icon" href="icons/icon-192x192.png" type="image/png">
+    <meta name="theme-color" content="#0a0a23">
 </head>
 <body>
     <div class="chat-container">
-        <h1>AI Chat</h1>
-        <div class="chat-box">
-            <iframe src="https://poe.com/" frameborder="0" style="width:100%;height:100%;"></iframe>
-        </div>
+        <header>
+            <h1>Gemini Chat</h1>
+            <button id="theme-toggle" aria-label="Переключить тему">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
+            <button id="clear-chat" aria-label="Очистить чат">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6h14z"></path>
+                </svg>
+            </button>
+        </header>
+        <div class="chat-box" id="chat-box"></div>
+        <form class="input-container" id="chat-form">
+            <input type="text" id="user-input" placeholder="Ask Gemini..." autocomplete="off">
+            <button type="submit">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
+            </button>
+        </form>
     </div>
     <script src="script.js"></script>
 </body>
