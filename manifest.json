@@ -1,10 +1,10 @@
 {
     "name": "Gemini Chat PWA",
     "short_name": "Gemini Chat",
-    "start_url": "/index.html",
+    "start_url": "/",  // ИЗМЕНЕНО:  Используем корень сайта
     "display": "standalone",
     "background_color": "#0a0a23",
-    "theme_color": "#8b5cf6",
+    "theme_color": "#8b5cf6",  // Убедитесь, что этот цвет совпадает с вашим дизайном
     "icons": [
         {
             "src": "icons/icon-192x192.png",
