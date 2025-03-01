@@ -5,25 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gemini Chat</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="manifest" href="/manifest.json">  <!-- Убедитесь, что путь правильный -->
-    <meta name="theme-color" content="#8b5cf6"> <!-- Добавьте, если нет. Соответствует theme_color в manifest.json -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#8b5cf6">
+    <!-- Material Icons (for the menu icon) -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 <body>
     <div class="chat-container">
         <header>
+            <!-- Menu Icon (Hamburger) -->
+            <button id="menu-toggle" aria-label="Open Menu">
+                <i class="material-icons">menu</i>
+            </button>
             <h1>Gemini Chat</h1>
-            <div>
-                <button id="theme-toggle">Toggle Theme</button>
-                <button id="clear-chat">Clear Chat</button>
-            </div>
+             <!-- Placeholder - We'll put the clear chat button in the drawer -->
+            <div></div>
         </header>
-        <div class="chat-box" id="chat-box"></div>
+
+        <!-- Navigation Drawer (Initially Hidden) -->
+        <nav id="nav-drawer">
+            <div class="nav-header">
+                <h2>Chats</h2>
+                <button id="close-drawer" aria-label="Close Menu">
+                    <i class="material-icons">close</i>
+                </button>
+            </div>
+            <ul id="chat-list">
+                <!-- Recent chats will be added here dynamically -->
+            </ul>
+            <button id="new-chat-button">New Chat</button>
+            <button id="theme-toggle">Toggle Theme</button>
+            <button id="clear-chat">Clear All Chats</button>  <!-- Moved here -->
+        </nav>
+
+        <div class="chat-box" id="chat-box">
+            <!-- Chat messages will be added here -->
+        </div>
         <div class="input-container">
             <input type="text" id="user-input" placeholder="Type your message...">
             <button type="submit" form="chat-form">Send</button>
         </div>
     </div>
-    <form id="chat-form" style="display: none;"></form> <!-- Скрытая форма -->
-    <script src="script.js"></script>  <!-- Убедитесь, что путь правильный -->
+    <form id="chat-form" style="display: none;"></form>
+    <script src="script.js"></script>
 </body>
 </html>
