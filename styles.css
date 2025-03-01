@@ -2,39 +2,41 @@
 
 /* ========================= Общие стили ========================= */
 body {
-    font-family: sans-serif;
+    font-family: 'Roboto', sans-serif; /* Современный шрифт Roboto */
     margin: 0;
     padding: 0;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     transition: background-color 0.3s ease, color 0.3s ease;
-    font-size: 16px; /* Базовый размер шрифта (можно настроить) */
+    color: #333; /* Базовый цвет текста для светлой темы */
+    background-color: #f8f8f8; /* Базовый фон для светлой темы */
+    font-size: 16px;
 }
 
-.app-container {
+.chat-app {
     display: flex;
     height: 100vh;
     overflow: hidden;
 }
 
-/* ========================= Боковая панель (Шторка) ========================= */
+/* ========================= Боковая панель ========================= */
 .sidebar {
-    width: 260px; /* Немного уменьшаем ширину боковой панели */
-    background-color: #1e1e2e;
-    color: #e0e0e0;
-    padding: 15px; /* Уменьшаем отступы в боковой панели */
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
-    z-index: 10;
+    width: 280px;
+    background-color: #fff; /* Белый фон боковой панели в светлой теме */
+    color: #333; /* Темный текст в боковой панели в светлой теме */
+    padding: 25px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05); /* Легкая тень боковой панели */
+    z-index: 100;
     transform: translateX(-100%);
     transition: transform 0.3s ease-in-out, background-color 0.3s ease, color 0.3s ease;
     overflow-y: auto;
-    display: flex;
-    flex-direction: column;
     position: fixed;
     top: 0;
     left: 0;
     height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .sidebar.open {
@@ -43,28 +45,24 @@ body {
 
 .sidebar-header {
     display: flex;
-    justify-content: center;
     align-items: center;
-    margin-bottom: 20px; /* Уменьшаем отступ заголовка боковой панели */
+    justify-content: space-between;
+    margin-bottom: 30px;
 }
 
 .sidebar-header h3 {
     margin: 0;
-    font-size: 1.3em; /* Немного уменьшаем размер заголовка боковой панели */
-    font-weight: bold;
-    color: #ffffff;
+    font-size: 1.5em;
+    font-weight: 500; /* Средняя жирность шрифта */
 }
 
 .close-sidebar-btn {
-    position: absolute;
-    top: 5px; /* Поднимаем кнопку закрытия выше */
-    right: 5px; /* Прижимаем кнопку закрытия ближе к краю */
     background: none;
     border: none;
-    color: #e0e0e0;
-    font-size: 1em; /* Уменьшаем размер кнопки закрытия */
+    color: #777;
+    font-size: 1.2em;
     cursor: pointer;
-    opacity: 0.6; /* Делаем кнопку закрытия еще более прозрачной */
+    opacity: 0.7;
     transition: opacity 0.2s ease, color 0.3s ease;
 }
 
@@ -80,82 +78,82 @@ body {
 }
 
 .theme-switcher {
-    margin-bottom: 20px; /* Уменьшаем отступ блока переключения тем */
+    margin-bottom: 30px;
 }
 
 .theme-switcher h4 {
     margin-top: 0;
-    margin-bottom: 10px; /* Уменьшаем отступ заголовка темы */
-    font-weight: bold;
-    color: #ffffff;
-    font-size: 1em; /* Уменьшаем размер заголовка темы */
+    margin-bottom: 15px;
+    font-weight: 500;
+    font-size: 1.1em;
+    color: #555;
 }
 
-.theme-button-group {
+.theme-options {
     display: flex;
-    border-radius: 18px; /* Уменьшаем скругление контейнера кнопок тем */
-    overflow: hidden;
-    border: 1px solid #44475a;
+    flex-direction: column; /* Вертикальное расположение кнопок тем */
+    gap: 10px; /* Отступы между кнопками тем */
 }
 
-.theme-button {
-    background-color: transparent;
-    color: #e0e0e0;
+.theme-option {
+    background-color: #f0f0f0; /* Светло-серый фон кнопок тем */
+    color: #555; /* Серый текст кнопок тем */
     border: none;
-    padding: 8px 16px; /* Уменьшаем отступы в кнопках тем */
+    padding: 12px 18px;
+    border-radius: 25px; /* Скругленные углы кнопок тем */
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
     transition: background-color 0.2s ease, color 0.3s ease;
-    flex: 1;
-    border-radius: 0;
-    font-size: 0.9em; /* Уменьшаем размер шрифта кнопок тем */
+    font-weight: 400; /* Нормальная жирность шрифта */
+    text-align: left; /* Выравнивание текста по левому краю */
 }
 
-.theme-button:first-child {
-    border-radius: 18px 0 0 18px; /* Уменьшаем скругление левой кнопки темы */
+.theme-option i {
+    font-size: 1.1em;
+    opacity: 0.8;
 }
 
-.theme-button:last-child {
-    border-radius: 0 18px 18px 0; /* Уменьшаем скругление правой кнопки темы */
+.theme-option.active, .theme-option:hover {
+    background-color: #e0e0e0; /* Более светлый фон активной/hover кнопки темы */
+    color: #333; /* Темный текст активной/hover кнопки темы */
 }
 
-.theme-button.active, .theme-button:hover {
-    background-color: #6a5acd;
-    color: #ffffff;
+.theme-option.dark-theme-btn.active, .theme-option.dark-theme-btn:hover {
+    background-color: #333; /* Темный фон активной/hover темной темы */
+    color: #fff; /* Белый текст активной/hover темной темы */
 }
 
-.theme-button.light-theme-btn.active, .theme-button.light-theme-btn:hover {
-    background-color: #ffe0b2;
-    color: #333333;
-}
-
-/* ========================= Область чата ========================= */
-.chat-area {
+/* ========================= Основная область чата ========================= */
+.chat-container {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    background-color: #ffffff;
+    background-color: #f8f8f8; /* Светло-серый фон области чата в светлой теме */
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* ========================= Шапка чата ========================= */
 .chat-header {
-    background-color: #ffffff;
-    color: #212121;
-    padding: 12px 15px; /* Уменьшаем отступы в шапке чата */
+    background-color: #fff; /* Белый фон шапки чата в светлой теме */
+    color: #222; /* Темный цвет текста шапки в светлой теме */
+    padding: 15px 20px;
     display: flex;
-    justify-content: flex-start;
     align-items: center;
-    border-bottom: 1px solid #e0e0e0;
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-    min-height: 50px; /* Минимальная высота шапки чата */
+    justify-content: space-between; /* Размещение кнопки настроек и заголовка по краям */
+    border-bottom: 1px solid #eee; /* Светлая граница снизу шапки */
+    min-height: 60px;
+    font-weight: 500;
+    font-size: 1.2em;
 }
 
 .sidebar-toggle-btn {
     background: none;
     border: none;
-    color: #212121;
-    font-size: 1.2em; /* Уменьшаем размер иконки меню */
+    color: #777;
+    font-size: 1.4em;
     cursor: pointer;
-    margin-right: 15px; /* Уменьшаем отступ иконки меню */
     opacity: 0.7;
     transition: opacity 0.2s ease, color 0.3s ease;
 }
@@ -164,223 +162,232 @@ body {
     opacity: 1;
 }
 
-.profile-icon {
-    width: 30px; /* Уменьшаем размер иконки профиля */
-    height: 30px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin-right: 8px; /* Уменьшаем отступ иконки профиля */
+.chat-title {
+    font-weight: 500;
+    font-size: 1.2em;
+    color: #444;
 }
 
-.profile-icon img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.chat-header h2 {
-    margin: 0;
-    font-size: 1.1em; /* Уменьшаем размер заголовка чата (если есть) */
-    font-weight: bold;
-}
-
-/* ========================= Контейнер сообщений ========================= */
-.chat-messages {
+/* ========================= Область сообщений ========================= */
+.message-area {
     flex-grow: 1;
-    padding: 15px; /* Уменьшаем отступы контейнера сообщений */
+    padding: 20px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    background-color: #ffffff;
+    background-color: #f8f8f8; /* Светло-серый фон области сообщений в светлой теме */
     transition: background-color 0.3s ease;
 }
 
 /* ========================= Сообщения ========================= */
 .message {
-    background-color: #e0e0e0;
-    color: #212121;
-    padding: 10px 15px; /* Уменьшаем отступы в сообщениях */
-    border-radius: 20px; /* Уменьшаем скругление углов сообщений */
-    margin-bottom: 8px; /* Уменьшаем отступ снизу от сообщений */
+    background-color: #fff; /* Белый фон сообщений в светлой теме */
+    color: #333; /* Темный текст сообщений в светлой теме */
+    padding: 14px 20px;
+    border-radius: 25px;
+    margin-bottom: 10px;
     word-wrap: break-word;
-    max-width: 85%; /* Немного увеличиваем максимальную ширину сообщений */
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.06); /* Делаем тень сообщений еще легче */
-    font-size: 0.95em; /* Уменьшаем размер шрифта сообщений */
-    line-height: 1.4; /* Уменьшаем межстрочный интервал для более плотного текста */
+    max-width: 75%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); /* Легкая тень для сообщений */
+    font-size: 1em;
+    line-height: 1.5;
+    align-self: flex-start; /* По умолчанию сообщения слева */
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .user-message {
-    background-color: #6a5acd;
-    color: #ffffff;
-    align-self: flex-start;
+    background-color: #e0f7fa; /* Светло-голубой фон сообщений пользователя в светлой теме */
+    color: #333; /* Темный текст сообщений пользователя в светлой теме */
+    align-self: flex-end; /* Сообщения пользователя справа */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Чуть более выраженная тень для сообщений пользователя */
 }
 
 .bot-message {
-    background-color: #e0e0e0;
-    color: #212121;
-    align-self: flex-end;
+    background-color: #fff; /* Белый фон сообщений бота в светлой теме */
+    color: #333; /* Темный текст сообщений бота в светлой теме */
+    align-self: flex-start; /* Сообщения бота слева */
 }
 
 /* ========================= Область ввода ========================= */
 .input-area {
-    background-color: #f0f0f0;
-    padding: 10px 15px; /* Уменьшаем отступы в области ввода */
-    border-top: 1px solid #e0e0e0;
+    background-color: #fff; /* Белый фон области ввода в светлой теме */
+    padding: 15px 20px;
+    border-top: 1px solid #eee; /* Светлая граница сверху области ввода */
     display: flex;
     align-items: center;
     transition: background-color 0.3s ease, border-color 0.3s ease;
-    min-height: 45px; /* Минимальная высота области ввода */
+    min-height: 60px;
 }
 
 .input-actions {
     display: flex;
-    margin-right: 10px; /* Уменьшаем отступ кнопок действий */
+    margin-right: 15px;
 }
 
-.input-action-btn {
+.input-action-button {
     background: none;
     border: none;
-    color: #757575;
-    font-size: 1.2em; /* Уменьшаем размер иконок действий */
+    color: #777;
+    font-size: 1.4em;
     cursor: pointer;
-    margin-right: 10px; /* Уменьшаем отступ иконок действий */
-    opacity: 0.6; /* Делаем иконки действий еще более прозрачными */
+    margin-right: 15px;
+    opacity: 0.7;
     transition: opacity 0.2s ease, color 0.3s ease, transform 0.1s ease;
 }
 
-.input-action-btn:hover, .input-action-btn.microphone-active {
+.input-action-button:hover, .input-action-button.microphone-button.active {
     opacity: 1;
-    color: #6a5acd;
+    color: #555;
 }
 
-.input-action-btn.microphone-active {
-    transform: scale(1.05); /* Меньше увеличение при активации микрофона */
+.input-action-button.microphone-button.active {
+    color: #007bff; /* Акцентный цвет для активного микрофона */
+    transform: scale(1.05);
 }
 
-.message-input {
+.input-field {
     flex-grow: 1;
-    padding: 10px 15px; /* Уменьшаем отступы в поле ввода */
-    border: 1px solid #cccccc;
-    border-radius: 20px; /* Уменьшаем скругление поля ввода */
-    background-color: #ffffff;
-    color: #212121;
-    margin-right: 10px; /* Уменьшаем отступ поля ввода */
-    font-size: 0.95em; /* Уменьшаем размер шрифта в поле ввода */
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
-.message-input::placeholder {
-    color: #9e9e9e;
-    font-size: 0.95em; /* Уменьшаем размер placeholder текста */
+.input-field input[type="text"] {
+    width: 100%;
+    padding: 14px 20px;
+    border: 1px solid #ddd; /* Светлая граница поля ввода */
+    border-radius: 25px;
+    background-color: #fff; /* Белый фон поля ввода в светлой теме */
+    color: #333; /* Темный текст поля ввода в светлой теме */
+    font-size: 1em;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    outline: none; /* Убираем стандартное выделение при фокусе */
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05); /* Легкая внутренняя тень */
 }
+
+.input-field input[type="text"]::placeholder {
+    color: #999; /* Светло-серый цвет placeholder текста */
+}
+
+.input-field input[type="text"]:focus {
+    border-color: #ccc; /* Чуть более темная граница при фокусе */
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.08), 0 0 5px rgba(0, 0, 0, 0.08); /* Более выраженная тень при фокусе */
+}
+
 
 .send-button {
-    background-color: #6a5acd;
-    color: #ffffff;
+    background-color: #007bff; /* Синий цвет кнопки отправки (акцентный) */
+    color: #fff;
     border: none;
     border-radius: 50%;
-    width: 40px; /* Уменьшаем размер кнопки отправки */
-    height: 40px; /* Уменьшаем размер кнопки отправки */
+    width: 45px;
+    height: 45px;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    font-size: 1em; /* Уменьшаем размер иконки кнопки отправки */
+    font-size: 1.2em;
     transition: background-color 0.2s ease, transform 0.1s ease;
+    margin-left: 15px;
 }
 
 .send-button:hover {
-    background-color: #574aa7;
-    transform: scale(1.03); /* Еще меньше увеличение при hover */
+    background-color: #0056b3; /* Более темный синий цвет при hover */
+    transform: scale(1.05);
 }
 
 
 /* ========================= Темная тема ========================= */
 body.dark-theme {
-    background-color: #121212;
-    color: #e0e0e0;
+    color: #eee; /* Светлый текст для темной темы */
+    background-color: #181818; /* Темный фон для темной темы */
 }
 
 body.dark-theme .sidebar {
-    background-color: #1e1e2e;
-    color: #e0e0e0;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.4);
+    background-color: #222; /* Темный фон боковой панели в темной теме */
+    color: #eee; /* Светлый текст в боковой панели в темной теме */
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3); /* Более выраженная тень боковой панели в темной теме */
 }
 
-body.dark-theme .sidebar-header h3,
-body.dark-theme .theme-switcher h4,
-body.dark-theme .close-sidebar-btn,
-body.dark-theme .theme-button {
-    color: #ffffff;
+body.dark-theme .theme-option {
+    background-color: #333; /* Темный фон кнопок тем в темной теме */
+    color: #eee; /* Светлый текст кнопок тем в темной теме */
 }
 
-body.dark-theme .chat-area {
-    background-color: #121212;
+body.dark-theme .theme-option.active, body.dark-theme .theme-option:hover {
+    background-color: #444; /* Более темный фон активной/hover кнопки темы в темной теме */
+    color: #fff; /* Белый текст активной/hover кнопки темы в темной теме */
+}
+
+body.dark-theme .chat-container {
+    background-color: #181818; /* Темный фон области чата в темной теме */
 }
 
 body.dark-theme .chat-header {
-    background-color: #1e1e2e;
-    color: #ffffff;
-    border-color: #2d2d2d;
+    background-color: #222; /* Темный фон шапки чата в темной теме */
+    color: #eee; /* Светлый текст шапки чата в темной теме */
+    border-bottom-color: #333; /* Более темная граница снизу шапки в темной теме */
 }
 
 body.dark-theme .sidebar-toggle-btn,
-body.dark-theme .profile-icon,
-body.dark-theme .chat-header h2 {
-    color: #ffffff;
+body.dark-theme .chat-title {
+    color: #ddd; /* Светлый цвет иконок и заголовка шапки в темной теме */
 }
 
-body.dark-theme .chat-messages {
-    background-color: #121212;
+body.dark-theme .message-area {
+    background-color: #181818; /* Темный фон области сообщений в темной теме */
 }
 
 body.dark-theme .message {
-    background-color: #2d2d2d;
-    color: #ffffff;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
-}
-
-body.dark-theme .bot-message {
-    background-color: #2d2d2d;
+    background-color: #333; /* Темный фон сообщений в темной теме */
+    color: #eee; /* Светлый текст сообщений в темной теме */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); /* Более выраженная тень для сообщений в темной теме */
 }
 
 body.dark-theme .user-message {
-    background-color: #6a5acd;
+    background-color: #26c6da; /* Бирюзовый фон сообщений пользователя в темной теме (акцент) */
+    color: #222; /* Темный текст сообщений пользователя в темной теме */
 }
+
+body.dark-theme .bot-message {
+    background-color: #333; /* Темный фон сообщений бота в темной теме */
+    color: #eee; /* Светлый текст сообщений бота в темной теме */
+}
+
 
 body.dark-theme .input-area {
-    background-color: #1e1e2e;
-    border-color: #2d2d2d;
+    background-color: #222; /* Темный фон области ввода в темной теме */
+    border-top-color: #333; /* Более темная граница сверху области ввода в темной теме */
 }
 
-body.dark-theme .input-action-btn {
-    color: #bdbdbd;
+body.dark-theme .input-action-button {
+    color: #ccc; /* Светло-серый цвет иконок действий в темной теме */
 }
 
-body.dark-theme .message-input {
-    background-color: #2d2d2d;
-    color: #ffffff;
-    border-color: #424242;
+body.dark-theme .input-field input[type="text"] {
+    background-color: #333; /* Темный фон поля ввода в темной теме */
+    color: #eee; /* Светлый текст поля ввода в темной теме */
+    border-color: #444; /* Более темная граница поля ввода в темной теме */
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4); /* Более выраженная внутренняя тень в темной теме */
 }
 
-body.dark-theme .message-input::placeholder {
-    color: #757575;
+body.dark-theme .input-field input[type="text"]::placeholder {
+    color: #777; /* Более темный цвет placeholder текста в темной теме */
 }
 
 body.dark-theme .send-button {
-    background-color: #6a5acd;
+    background-color: #26c6da; /* Бирюзовый цвет кнопки отправки в темной теме (акцент) */
+    color: #222; /* Темный цвет текста кнопки отправки в темной теме */
+}
+
+body.dark-theme .send-button:hover {
+    background-color: #1ea7b5; /* Более темный бирюзовый цвет при hover в темной теме */
 }
 
 
 /* ========================= Медиа-запросы для адаптивности ========================= */
 
-/* Для маленьких экранов (телефоны, меньше 768px) */
-@media screen and (max-width: 768px) {
-    .app-container {
+@media (max-width: 768px) {
+    .chat-app {
         flex-direction: column;
     }
-
     .sidebar {
         width: 100%;
         height: auto;
@@ -388,109 +395,49 @@ body.dark-theme .send-button {
         transform: translateX(0);
         box-shadow: none;
         order: 1;
-        overflow-y: auto;
-        padding: 10px; /* Еще меньше отступы боковой панели на телефонах */
+        padding: 15px;
     }
-
-    .sidebar-header {
-        margin-bottom: 15px; /* Еще меньше отступ заголовка боковой панели на телефонах */
-    }
-
-    .theme-switcher {
-        margin-bottom: 15px; /* Еще меньше отступ блока тем на телефонах */
-    }
-
     .sidebar.open {
         transform: translateX(0);
     }
-
-    .chat-area {
+    .chat-container {
         order: 2;
     }
-
     .chat-header {
-        flex-direction: row;
-        align-items: center;
         justify-content: space-between;
-        padding: 10px; /* Еще меньше отступы шапки на телефонах */
-        min-height: 40px; /* Еще меньше минимальная высота шапки на телефонах */
     }
-
     .sidebar-toggle-btn {
         margin-right: 0;
-        font-size: 1.1em; /* Еще меньше размер иконки меню на телефонах */
     }
-
-    .profile-icon {
-        margin-top: 0;
-        margin-right: 0;
-        width: 28px; /* Еще меньше размер иконки профиля на телефонах */
-        height: 28px;
+    .chat-title {
+        font-size: 1.1em;
     }
-
-    .chat-messages {
-        padding: 10px; /* Еще меньше отступы контейнера сообщений на телефонах */
+    .message-area {
+        padding: 15px;
     }
-
     .input-area {
-        padding: 8px 10px; /* Еще меньше отступы области ввода на телефонах */
-        min-height: 40px; /* Еще меньше минимальная высота области ввода на телефонах */
+        padding: 10px 15px;
     }
-
     .message {
-        max-width: 96%; /* Еще больше максимальная ширина сообщений на телефонах */
-        padding: 8px 12px; /* Еще меньше отступы сообщений на телефонах */
-        border-radius: 18px; /* Еще меньше скругление сообщений на телефонах */
-        margin-bottom: 6px; /* Еще меньше отступ снизу сообщений на телефонах */
-        font-size: 0.9em; /* Еще меньше размер шрифта сообщений на телефонах */
-        line-height: 1.3; /* Еще меньше межстрочный интервал сообщений на телефонах */
+        max-width: 90%;
+        padding: 12px 18px;
+        font-size: 0.95em;
     }
-
-    .theme-switcher h4 {
-        font-size: 1em;
+    .input-field input[type="text"] {
+        padding: 12px 18px;
+        font-size: 0.95em;
     }
-
-    .theme-button {
-        padding: 6px 12px;
-        font-size: 0.85em; /* Еще меньше размер шрифта кнопок тем на телефонах */
+    .input-action-button, .send-button {
+        font-size: 1.3em;
+        margin-right: 10px;
     }
-
-    .message-input {
-        padding: 8px 12px; /* Еще меньше отступы поля ввода на телефонах */
-        font-size: 0.9em; /* Еще меньше размер шрифта поля ввода на телефонах */
-        border-radius: 18px; /* Еще меньше скругление поля ввода на телефонах */
-    }
-
-    .input-action-btn, .send-button {
-        font-size: 1.2em;
-        margin-right: 8px; /* Еще меньше отступ кнопок действий на телефонах */
-    }
-
     .send-button {
-        width: 36px; /* Еще меньше размер кнопки отправки на телефонах */
-        height: 36px; /* Еще меньше размер кнопки отправки на телефонах */
+        width: 40px;
+        height: 40px;
     }
 }
 
-/* Для планшетов (от 769px до 1024px) - можно настроить диапазон */
-@media screen and (min-width: 769px) and (max-width: 1024px) {
-    .sidebar {
-        width: 33%; /* Боковая панель занимает 33% ширины на планшетах */
-    }
-
-    .message {
-        max-width: 92%; /* Еще больше максимальная ширина сообщений на планшетах */
-    }
+/* ========================= Стили для иконок Font Awesome ========================= */
+.fas {
+    /* Общие стили для иконок, если нужно */
 }
-
-/* Для больших экранов (десктопов, больше 1025px) - стили по умолчанию уже должны быть настроены */
-@media screen and (min-width: 1025px) {
-    .message {
-        max-width: 85%; /* Немного увеличиваем максимальную ширину сообщений на десктопах */
-    }
-}
-
-/* ========================= Стили для иконок Font Awesome (уже подключены через CDN) ========================= */
-.fas { /* Font Awesome Solid Icons */
-    /* Можно добавить общие стили для всех иконок, если нужно */
-    }
