@@ -1,89 +1,69 @@
 <!DOCTYPE html>
-<html lang="ru"> <!-- Указываем язык страницы русский -->
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gemini Chat</title> <!-- Заголовок страницы -->
-    <link rel="stylesheet" href="styles.css"> <!-- Подключаем файл стилей -->
+    <title>Gemini Chat</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" /> <!-- Font Awesome для иконок -->
 </head>
-<body>
+<body class="dark-theme"> <!-- По умолчанию темная тема -->
 
-    <div class="chat-container">
-        <div class="chat-header">
-            <h1>Gemini Chat</h1> <!-- Заголовок чата -->
-            <button id="theme-toggle">Переключить тему</button> <!-- Кнопка переключения темы -->
+    <div class="app-container"> <!-- Общий контейнер для всего приложения -->
+
+        <aside class="sidebar" id="sidebar"> <!-- Боковая панель ("шторка") -->
+            <div class="sidebar-header">
+                <h3>Настройки</h3>
+                <button class="close-sidebar-btn" id="close-sidebar-btn"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="sidebar-content">
+                <div class="theme-switcher">
+                    <h4>Тема оформления</h4>
+                    <button class="theme-button light-theme-btn" data-theme="light">Светлая</button>
+                    <button class="theme-button dark-theme-btn active" data-theme="dark">Темная</button>
+                </div>
+                <!-- Здесь можно добавить другие настройки -->
+            </div>
+        </aside>
+
+        <div class="chat-area"> <!-- Основная область чата -->
+            <header class="chat-header">
+                <button class="sidebar-toggle-btn" id="sidebar-toggle-btn"><i class="fas fa-bars"></i></button> <!-- Кнопка открытия боковой панели -->
+                <div class="profile-icon">
+                    <img src="profile-icon.png" alt="Профиль"> <!-- Замените на свою иконку профиля -->
+                </div>
+            </header>
+
+            <div class="chat-messages" id="chat-messages">
+                <!-- Сообщения чата будут здесь -->
+                <div class="message bot-message">Добрый вечер, Carter! Чем я могу помочь сегодня?</div>
+            </div>
+
+            <div class="input-area">
+                <div class="input-actions"> <!-- Контейнер для дополнительных кнопок слева от поля ввода -->
+                    <button class="input-action-btn"><i class="fas fa-paperclip"></i></button> <!-- Пример: кнопка вложения файла -->
+                    <button class="input-action-btn"><i class="fas fa-microphone"></i></button> <!-- Пример: кнопка голосового ввода -->
+                </div>
+                <input type="text" class="message-input" id="message-input" placeholder="Что ты хочешь узнать?">
+                <button class="send-button" id="send-button"><i class="fas fa-arrow-up"></i></button> <!-- Иконка отправки -->
+            </div>
         </div>
 
-        <div class="chat-messages" id="chat-messages">
-            <!-- Здесь будут отображаться сообщения чата -->
-            <div class="message bot-message">Привет! Как я могу тебе помочь?</div>
-            <div class="message user-message">Привет, просто тестирую чат.</div>
-        </div>
-
-        <div class="input-area">
-            <input type="text" class="message-input" id="message-input" placeholder="Введите ваше сообщение...">
-            <button class="send-button" id="send-button">Отправить</button>
-        </div>
     </div>
 
+    <script src="script.js"></script> <!-- Подключаем JavaScript файл -->
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const themeToggle = document.getElementById('theme-toggle');
-            const body = document.body;
-            const chatMessagesContainer = document.getElementById('chat-messages');
-            const messageInput = document.getElementById('message-input');
-            const sendButton = document.getElementById('send-button');
-
-            themeToggle.addEventListener('click', () => {
-                if (body.classList.contains('light-theme')) {
-                    body.classList.remove('light-theme');
-                    body.classList.add('gray-theme');
-                } else if (body.classList.contains('gray-theme')) {
-                    body.classList.remove('gray-theme');
-                    body.classList.remove('dark-theme'); // На всякий случай убираем класс темной темы, если был
-                    body.classList.add('light-theme');
-                }
-                else { // По умолчанию делаем светлую тему, если нет ни одной
-                    body.classList.remove('dark-theme'); // На всякий случай убираем класс темной темы
-                    body.classList.add('light-theme');
-                }
+        // Регистрация сервис-воркера (если вы хотите PWA)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('Service Worker registered: ', registration);
+                    }).catch(registrationError => {
+                        console.log('Service Worker registration failed: ', registrationError);
+                    });
             });
-
-            sendButton.addEventListener('click', () => {
-                const messageText = messageInput.value.trim(); // Получаем текст сообщения и убираем пробелы по краям
-                if (messageText !== "") { // Проверяем, что сообщение не пустое
-                    // Создаем элемент сообщения пользователя
-                    const userMessageDiv = document.createElement('div');
-                    userMessageDiv.classList.add('message', 'user-message');
-                    userMessageDiv.textContent = messageText;
-                    chatMessagesContainer.appendChild(userMessageDiv); // Добавляем сообщение в контейнер
-
-                    // Очищаем поле ввода
-                    messageInput.value = "";
-
-                    // Прокручиваем контейнер сообщений вниз, чтобы увидеть новое сообщение
-                    chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
-
-                    // --- Здесь можно добавить логику отправки сообщения на сервер и получения ответа от бота ---
-                    // --- В этом примере просто имитируем ответ бота ---
-                    setTimeout(() => { // Имитируем задержку ответа бота
-                        const botMessageDiv = document.createElement('div');
-                        botMessageDiv.classList.add('message', 'bot-message');
-                        botMessageDiv.textContent = "Это ответ бота на ваше сообщение: \"" + messageText + "\"";
-                        chatMessagesContainer.appendChild(botMessageDiv);
-                        chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight; // Прокручиваем вниз после ответа бота
-                    }, 500); // Задержка в 500 миллисекунд (0.5 секунды)
-                }
-            });
-
-            // Обработка отправки сообщения при нажатии Enter в поле ввода
-            messageInput.addEventListener('keydown', (event) => {
-                if (event.key === 'Enter') {
-                    sendButton.click(); // Эмулируем клик на кнопку "Отправить"
-                    event.preventDefault(); // Предотвращаем стандартное действие Enter (например, перенос строки)
-                }
-            });
-        });
+        }
     </script>
 
 </body>
