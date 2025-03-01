@@ -1,149 +1,258 @@
-/* Общие стили (применимы ко всем темам) */
+/* Общие стили */
 body {
-  font-family: sans-serif; /* Современный шрифт без засечек */
-  margin: 0; /* Убираем отступы body, чтобы фон занимал всю страницу */
-  padding: 0;
-  background-color: #1e1e2e; /* Темно-фиолетовый фон по умолчанию (как сейчас) */
-  color: #ffffff; /* Белый текст по умолчанию */
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Предотвращаем горизонтальную прокрутку */
 }
 
-.chat-container {
-  /* Убираем рамку общего окна - делаем фон прозрачным или совпадающим с body */
-  background-color: transparent; /* Прозрачный фон, чтобы фон body был виден */
-  /* Или, если хотите немного отделить, можно использовать легкую тень: */
-  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
-  border-radius: 0; /* Убираем скругление рамки, если есть */
-  padding: 20px; /* Отступы внутри контейнера чата */
-  max-width: 600px; /* Ограничиваем ширину чата для удобства чтения */
-  margin: 20px auto; /* Центрируем чат по горизонтали */
+.app-container {
+    display: flex; /* Используем flexbox для общего контейнера */
+    height: 100vh; /* Занимает всю высоту viewport */
+    overflow: hidden; /* Скрываем прокрутку на общем контейнере, прокрутка будет внутри chat-messages */
 }
 
-/* Стили для сообщений */
+/* Боковая панель (шторка) */
+.sidebar {
+    width: 250px; /* Ширина боковой панели */
+    background-color: #282a36; /* Темный фон для боковой панели */
+    color: #f8f8f2;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    z-index: 10; /* Чтобы боковая панель была поверх контента чата */
+    transform: translateX(-100%); /* Скрываем боковую панель по умолчанию */
+    transition: transform 0.3s ease-in-out; /* Плавная анимация открытия/закрытия */
+    overflow-y: auto; /* Прокрутка, если контент не помещается */
+    display: flex;
+    flex-direction: column; /* Вертикальное расположение элементов в боковой панели */
+    position: fixed; /* Фиксированное позиционирование, чтобы не сдвигался контент при открытии */
+    top: 0;
+    left: 0;
+    height: 100vh;
+}
+
+.sidebar.open {
+    transform: translateX(0); /* Показываем боковую панель при добавлении класса .open */
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between; /* Размещаем заголовок и кнопку закрытия по краям */
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.close-sidebar-btn {
+    background: none;
+    border: none;
+    color: #f8f8f2;
+    font-size: 1.2em;
+    cursor: pointer;
+}
+
+.sidebar-content {
+    flex-grow: 1; /* Занимает доступное пространство в боковой панели */
+    display: flex;
+    flex-direction: column; /* Вертикальное расположение контента */
+    justify-content: flex-start; /* Выравниваем контент по верху */
+}
+
+.theme-switcher {
+    margin-bottom: 20px;
+}
+
+.theme-button {
+    background-color: transparent;
+    color: #f8f8f2;
+    border: 1px solid #44475a;
+    padding: 8px 15px;
+    border-radius: 15px;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: background-color 0.2s ease;
+}
+
+.theme-button.active, .theme-button:hover {
+    background-color: #bd93f9;
+    color: #ffffff;
+    border-color: #bd93f9;
+}
+
+/* Область чата */
+.chat-area {
+    flex-grow: 1; /* Занимает все доступное пространство */
+    display: flex;
+    flex-direction: column; /* Вертикальное расположение элементов в области чата */
+}
+
+.chat-header {
+    background-color: #282a36; /* Темный фон шапки чата */
+    color: #f8f8f2;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between; /* Размещаем кнопку меню и иконку профиля по краям */
+    align-items: center;
+    border-bottom: 1px solid #44475a;
+}
+
+.sidebar-toggle-btn {
+    background: none;
+    border: none;
+    color: #f8f8f2;
+    font-size: 1.2em;
+    cursor: pointer;
+    margin-right: 15px;
+}
+
+.profile-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden; /* Скругляем иконку профиля */
+}
+
+.profile-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Масштабируем изображение для заполнения контейнера */
+}
+
+.chat-messages {
+    flex-grow: 1; /* Занимает все доступное пространство для сообщений */
+    padding: 20px;
+    overflow-y: auto; /* Прокрутка только для сообщений */
+    display: flex;
+    flex-direction: column; /* Сообщения сверху вниз */
+}
+
 .message {
-  background-color: #282a36; /* Темный фон для блоков сообщений по умолчанию */
-  color: #f8f8f2; /* Светлый текст для сообщений по умолчанию */
-  padding: 10px 15px;
-  border-radius: 15px; /* Скругленные углы сообщений */
-  margin-bottom: 10px;
-  word-wrap: break-word; /* Перенос длинных слов, чтобы не ломать разметку */
+    background-color: #282a36;
+    color: #f8f8f2;
+    padding: 10px 15px;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    word-wrap: break-word;
+    max-width: 80%; /* Максимальная ширина сообщения */
 }
 
 .user-message {
-  background-color: #44475a; /* Чуть более светлый фон для сообщений пользователя */
-  align-self: flex-start; /* Выравниваем сообщения пользователя слева (если используется flexbox) */
+    background-color: #44475a;
+    align-self: flex-start; /* Сообщения пользователя слева */
 }
 
 .bot-message {
-  background-color: #282a36; /* Фон для сообщений бота (можно сделать другим) */
-  align-self: flex-end; /* Выравниваем сообщения бота справа (если используется flexbox) */
+    background-color: #282a36;
+    align-self: flex-end; /* Сообщения бота справа */
 }
 
-/* Поле ввода сообщения */
 .input-area {
-  display: flex;
-  gap: 10px; /* Расстояние между полем ввода и кнопкой */
-  margin-top: 20px;
+    background-color: #282a36; /* Фон области ввода */
+    padding: 15px 20px;
+    border-top: 1px solid #44475a;
+    display: flex;
+    align-items: center; /* Выравниваем элементы по вертикали */
+}
+
+.input-actions {
+    display: flex;
+    margin-right: 10px;
+}
+
+.input-action-btn {
+    background: none;
+    border: none;
+    color: #f8f8f2;
+    font-size: 1.2em;
+    cursor: pointer;
+    margin-right: 10px;
 }
 
 .message-input {
-  flex-grow: 1; /* Поле ввода занимает все доступное место */
-  padding: 10px;
-  border: 1px solid #44475a; /* Рамка поля ввода */
-  border-radius: 15px;
-  background-color: #282a36;
-  color: #f8f8f2;
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #44475a;
+    border-radius: 15px;
+    background-color: #44475a; /* Более светлый фон для поля ввода */
+    color: #f8f8f2;
+    margin-right: 10px;
 }
 
 .send-button {
-  padding: 10px 20px;
-  background-color: #bd93f9; /* Фиолетовый акцент по умолчанию */
-  color: #ffffff;
-  border: none;
-  border-radius: 15px;
-  cursor: pointer;
+    background-color: #bd93f9;
+    color: #ffffff;
+    border: none;
+    border-radius: 50%; /* Круглая кнопка */
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1.2em; /* Размер иконки внутри кнопки */
 }
 
 .send-button:hover {
-  background-color: #a37acc; /* Чуть темнее при наведении */
+    background-color: #a37acc;
 }
 
 
-/* --- Белая тема --- */
+/* --- Светлая тема --- */
 body.light-theme {
-  background-color: #f0f0f0; /* Светло-серый фон для белой темы */
-  color: #333333; /* Темно-серый текст для белой темы */
+    background-color: #f0f0f0;
+    color: #333333;
 }
 
-body.light-theme .chat-container {
-  /* Фон контейнера может оставаться прозрачным или стать белым */
-  /* background-color: #ffffff; */
+body.light-theme .sidebar,
+body.light-theme .chat-header,
+body.light-theme .input-area {
+    background-color: #ffffff;
+    color: #333333;
+    border-color: #cccccc;
+}
+
+body.light-theme .sidebar-header,
+body.light-theme .sidebar-toggle-btn,
+body.light-theme .close-sidebar-btn,
+body.light-theme .input-action-btn,
+body.light-theme .send-button,
+body.light-theme .theme-button {
+    color: #333333;
 }
 
 body.light-theme .message {
-  background-color: #ffffff; /* Белый фон для сообщений в белой теме */
-  color: #333333; /* Темный текст для сообщений в белой теме */
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Легкая тень для разделения сообщений */
+    background-color: #ffffff;
+    color: #333333;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 body.light-theme .user-message {
-  background-color: #f8f8f8; /* Чуть более светлый фон для сообщений пользователя в белой теме */
-}
-
-body.light-theme .bot-message {
-  background-color: #ffffff; /* Фон для сообщений бота в белой теме */
+    background-color: #f8f8f8;
 }
 
 body.light-theme .message-input {
-  background-color: #ffffff;
-  color: #333333;
-  border-color: #cccccc;
+    background-color: #f8f8f8;
+    color: #333333;
+    border-color: #cccccc;
 }
 
 body.light-theme .send-button {
-  background-color: #ffe0b2; /* Молочный/кремовый акцент для белой темы */
-  color: #333333;
+    background-color: #ffe0b2; /* Молочный акцент для светлой темы */
+    color: #333333;
 }
 
 body.light-theme .send-button:hover {
-  background-color: #ffcc80; /* Чуть темнее при наведении */
+    background-color: #ffcc80;
+}
+
+body.light-theme .theme-button.active,
+body.light-theme .theme-button:hover {
+    background-color: #ffcc80;
+    color: #333333;
+    border-color: #ffcc80;
 }
 
 
-/* --- Серая тема --- */
-body.gray-theme {
-  background-color: #424242; /* Темно-серый фон для серой темы */
-  color: #ffffff; /* Белый текст для серой темы */
-}
-
-body.gray-theme .chat-container {
-  /* Фон контейнера может оставаться прозрачным или стать серым */
-  /* background-color: #616161; */
-}
-
-body.gray-theme .message {
-  background-color: #616161; /* Серый фон для сообщений в серой теме */
-  color: #ffffff; /* Белый текст для сообщений в серой теме */
-}
-
-body.gray-theme .user-message {
-  background-color: #757575; /* Чуть более светлый серый для сообщений пользователя в серой теме */
-}
-
-body.gray-theme .bot-message {
-  background-color: #616161; /* Фон для сообщений бота в серой теме */
-}
-
-body.gray-theme .message-input {
-  background-color: #616161;
-  color: #ffffff;
-  border-color: #757575;
-}
-
-body.gray-theme .send-button {
-  background-color: #212121; /* Лунный/черный акцент для серой темы */
-  color: #ffffff;
-}
-
-body.gray-theme .send-button:hover {
-  background-color: #000000; /* Еще темнее при наведении */
+/* --- Стили для иконок Font Awesome (уже подключены через CDN, но можно настроить) --- */
+.fas { /* Font Awesome Solid Icons */
+    /* Можно добавить общие стили для всех иконок, если нужно */
 }
