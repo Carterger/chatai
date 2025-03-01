@@ -1,11 +1,13 @@
 {
-  "name": "Gemini Chat PWA",
-  "short_name": "Gemini Chat",
-  "start_url": "/",
-  "display": "standalone",  // Важно для "полноэкранного" режима
-  "background_color": "#0a0a23",
-  "theme_color": "#8b5cf6",
+  "name": "Gemini Chat PWA",           // Полное имя приложения
+  "short_name": "Gemini Chat",        // Короткое имя (для ярлыка)
+  "start_url": "/",                   // КРИТИЧЕСКИ ВАЖНО: Корневой URL
+  "display": "standalone",            // КРИТИЧЕСКИ ВАЖНО: Запуск как отдельное приложение
+  "background_color": "#0a0a23",      // Цвет фона при запуске
+  "theme_color": "#8b5cf6",          // Цвет темы (для строки состояния)
+  "orientation": "portrait",          // Предпочтительная ориентация (можно убрать, если не нужно)
   "icons": [
+    // КРИТИЧЕСКИ ВАЖНО: Должны быть ВСЕ эти размеры иконок
     {
       "src": "icons/icon-48x48.png",
       "sizes": "48x48",
@@ -21,7 +23,7 @@
       "sizes": "96x96",
       "type": "image/png"
     },
-     {
+    {
       "src": "icons/icon-144x144.png",
       "sizes": "144x144",
       "type": "image/png"
@@ -36,7 +38,5 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ],
- "related_applications": [], //Пока не нужно, далее опишу зачем
- "prefer_related_applications": false //Пока не нужно, далее опишу зачем
+  ]
 }
