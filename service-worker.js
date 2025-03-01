@@ -1,75 +1,43 @@
-const CACHE_NAME = 'v4'; // КРИТИЧЕСКИ ВАЖНО: Увеличивайте версию при каждом изменении!
+const CACHE_NAME = 'chatai-cache-v1';
+const urlsToCache = [
+  './',
+  'index.html',
+  'styles.css',
+  'script.js',
+  'icon-192x192.png', // Добавьте иконки, если они есть
+  'icon-512x512.png'
+];
 
-self.addEventListener('install', (event) => {
+self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then((cache) => {
-        console.log('Opened cache:', CACHE_NAME);
-        return cache.addAll([
-          '/',          // Кэшируем корень (start_url)
-          '/index.html',// и index.html (на всякий случай)
-          '/styles.css',
-          '/script.js',
-          '/manifest.json',
-          '/icons/icon-48x48.png',  // Кэшируем ВСЕ иконки
-          '/icons/icon-72x72.png',
-          '/icons/icon-96x96.png',
-          '/icons/icon-144x144.png',
-          '/icons/icon-192x192.png',
-          '/icons/icon-512x512.png',
-          'https://fonts.googleapis.com/icon?family=Material+Icons' // Кэшируем иконки
-        ]);
-      })
-      .catch((error) => {
-        console.error('Failed to cache:', error); // Обработка ошибок кэширования
+      .then(function(cache) {
+        console.log('Opened cache');
+        return cache.addAll(urlsToCache);
       })
   );
 });
 
-self.addEventListener('fetch', (event) => {
+self.addEventListener('fetch', function(event) {
   event.respondWith(
     caches.match(event.request)
-      .then((response) => {
-        // Возвращаем из кэша, если есть
+      .then(function(response) {
         if (response) {
-          console.log('Found in cache:', event.request.url);
-          return response;
+          return response; // Если ресурс есть в кэше - возвращаем его из кэша
         }
-
-        // Если нет в кэше, делаем запрос к сети
-        console.log('Network request for:', event.request.url);
-        return fetch(event.request)
-          .then(fetchResponse => { //Добавляем ресурс в кэш, после получения из сети
-              if(!fetchResponse || fetchResponse.status !== 200 || fetchResponse.type !== 'basic'){
-                  return fetchResponse;
-              }
-              const responseToCache = fetchResponse.clone();
-              caches.open(CACHE_NAME).then(cache => {
-                  cache.put(event.request, responseToCache);
-              });
-              return fetchResponse;
-          });
-      })
-      .catch(() => {
-        // Обработка ошибок сети (офлайн-режим)
-        return new Response('Нет сети. Подключитесь для работы с Gemini.', {
-          status: 503,
-          statusText: 'Service Unavailable'
-        });
+        return fetch(event.request); // Иначе - делаем запрос на сервер
       })
   );
 });
 
-self.addEventListener('activate', (event) => {
-  const cacheWhitelist = [CACHE_NAME]; // КРИТИЧЕСКИ ВАЖНО: Список разрешённых кэшей
-
+self.addEventListener('activate', function(event) {
+  const cacheWhitelist = [CACHE_NAME];
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
+    caches.keys().then(cacheNames => {
       return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (!cacheWhitelist.includes(cacheName)) {
-            console.log('Deleting old cache:', cacheName);
-            return caches.delete(cacheName); // Удаляем старые кэши
+        cacheNames.map(cacheName => {
+          if (cacheWhitelist.indexOf(cacheName) === -1) {
+            return caches.delete(cacheName); // Удаляем старые кэши, которых нет в whitelist
           }
         })
       );
