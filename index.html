@@ -1,52 +1,90 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru"> <!-- Указываем язык страницы русский -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gemini Chat</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#8b5cf6">
-    <!-- Material Icons (for the menu icon) -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <title>Gemini Chat</title> <!-- Заголовок страницы -->
+    <link rel="stylesheet" href="styles.css"> <!-- Подключаем файл стилей -->
 </head>
 <body>
+
     <div class="chat-container">
-        <header>
-            <!-- Menu Icon (Hamburger) -->
-            <button id="menu-toggle" aria-label="Open Menu">
-                <i class="material-icons">menu</i>
-            </button>
-            <h1>Gemini Chat</h1>
-             <!-- Placeholder - We'll put the clear chat button in the drawer -->
-            <div></div>
-        </header>
-
-        <!-- Navigation Drawer (Initially Hidden) -->
-        <nav id="nav-drawer">
-            <div class="nav-header">
-                <h2>Chats</h2>
-                <button id="close-drawer" aria-label="Close Menu">
-                    <i class="material-icons">close</i>
-                </button>
-            </div>
-            <ul id="chat-list">
-                <!-- Recent chats will be added here dynamically -->
-            </ul>
-            <button id="new-chat-button">New Chat</button>
-            <button id="theme-toggle">Toggle Theme</button>
-            <button id="clear-chat">Clear All Chats</button>  <!-- Moved here -->
-        </nav>
-
-        <div class="chat-box" id="chat-box">
-            <!-- Chat messages will be added here -->
+        <div class="chat-header">
+            <h1>Gemini Chat</h1> <!-- Заголовок чата -->
+            <button id="theme-toggle">Переключить тему</button> <!-- Кнопка переключения темы -->
         </div>
-        <div class="input-container">
-            <input type="text" id="user-input" placeholder="Type your message...">
-            <button type="submit" form="chat-form">Send</button>
+
+        <div class="chat-messages" id="chat-messages">
+            <!-- Здесь будут отображаться сообщения чата -->
+            <div class="message bot-message">Привет! Как я могу тебе помочь?</div>
+            <div class="message user-message">Привет, просто тестирую чат.</div>
+        </div>
+
+        <div class="input-area">
+            <input type="text" class="message-input" id="message-input" placeholder="Введите ваше сообщение...">
+            <button class="send-button" id="send-button">Отправить</button>
         </div>
     </div>
-    <form id="chat-form" style="display: none;"></form>
-    <script src="script.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggle = document.getElementById('theme-toggle');
+            const body = document.body;
+            const chatMessagesContainer = document.getElementById('chat-messages');
+            const messageInput = document.getElementById('message-input');
+            const sendButton = document.getElementById('send-button');
+
+            themeToggle.addEventListener('click', () => {
+                if (body.classList.contains('light-theme')) {
+                    body.classList.remove('light-theme');
+                    body.classList.add('gray-theme');
+                } else if (body.classList.contains('gray-theme')) {
+                    body.classList.remove('gray-theme');
+                    body.classList.remove('dark-theme'); // На всякий случай убираем класс темной темы, если был
+                    body.classList.add('light-theme');
+                }
+                else { // По умолчанию делаем светлую тему, если нет ни одной
+                    body.classList.remove('dark-theme'); // На всякий случай убираем класс темной темы
+                    body.classList.add('light-theme');
+                }
+            });
+
+            sendButton.addEventListener('click', () => {
+                const messageText = messageInput.value.trim(); // Получаем текст сообщения и убираем пробелы по краям
+                if (messageText !== "") { // Проверяем, что сообщение не пустое
+                    // Создаем элемент сообщения пользователя
+                    const userMessageDiv = document.createElement('div');
+                    userMessageDiv.classList.add('message', 'user-message');
+                    userMessageDiv.textContent = messageText;
+                    chatMessagesContainer.appendChild(userMessageDiv); // Добавляем сообщение в контейнер
+
+                    // Очищаем поле ввода
+                    messageInput.value = "";
+
+                    // Прокручиваем контейнер сообщений вниз, чтобы увидеть новое сообщение
+                    chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
+
+                    // --- Здесь можно добавить логику отправки сообщения на сервер и получения ответа от бота ---
+                    // --- В этом примере просто имитируем ответ бота ---
+                    setTimeout(() => { // Имитируем задержку ответа бота
+                        const botMessageDiv = document.createElement('div');
+                        botMessageDiv.classList.add('message', 'bot-message');
+                        botMessageDiv.textContent = "Это ответ бота на ваше сообщение: \"" + messageText + "\"";
+                        chatMessagesContainer.appendChild(botMessageDiv);
+                        chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight; // Прокручиваем вниз после ответа бота
+                    }, 500); // Задержка в 500 миллисекунд (0.5 секунды)
+                }
+            });
+
+            // Обработка отправки сообщения при нажатии Enter в поле ввода
+            messageInput.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    sendButton.click(); // Эмулируем клик на кнопку "Отправить"
+                    event.preventDefault(); // Предотвращаем стандартное действие Enter (например, перенос строки)
+                }
+            });
+        });
+    </script>
+
 </body>
 </html>
