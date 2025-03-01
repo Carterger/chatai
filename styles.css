@@ -1,373 +1,149 @@
-/* (Previous styles from your original CSS, plus additions below) */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
+/* Общие стили (применимы ко всем темам) */
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: linear-gradient(135deg, #0a0a23 0%, #1a1a3d 100%);
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 15px;
-    transition: background 0.5s ease;
-    overflow: hidden; /* Prevent scrollbars on the body */
-}
-
-body.light {
-    background: linear-gradient(135deg, #e0e7ff 0%, #f9faff 100%);
+  font-family: sans-serif; /* Современный шрифт без засечек */
+  margin: 0; /* Убираем отступы body, чтобы фон занимал всю страницу */
+  padding: 0;
+  background-color: #1e1e2e; /* Темно-фиолетовый фон по умолчанию (как сейчас) */
+  color: #ffffff; /* Белый текст по умолчанию */
 }
 
 .chat-container {
-    width: 90%;
-    max-width: 800px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-    height: 90vh;
-    max-height: 900px;
-    overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    position: relative; /* Needed for the drawer positioning */
+  /* Убираем рамку общего окна - делаем фон прозрачным или совпадающим с body */
+  background-color: transparent; /* Прозрачный фон, чтобы фон body был виден */
+  /* Или, если хотите немного отделить, можно использовать легкую тень: */
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+  border-radius: 0; /* Убираем скругление рамки, если есть */
+  padding: 20px; /* Отступы внутри контейнера чата */
+  max-width: 600px; /* Ограничиваем ширину чата для удобства чтения */
+  margin: 20px auto; /* Центрируем чат по горизонтали */
 }
 
-body.light .chat-container {
-    background: rgba(255, 255, 255, 0.8);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-}
-
-header {
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-body.light header {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-h1 {
-    font-size: 26px;
-    font-weight: 700;
-    color: #fff;
-    letter-spacing: 0.5px;
-    flex-grow: 1; /* Allow h1 to take available space */
-    text-align: center; /* Center the title */
-}
-
-body.light h1 {
-    color: #1a1a3d;
-}
-
-#menu-toggle {
-    background: none;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-    font-size: 24px; /* Larger icon */
-    padding: 0;
-    margin-right: 10px; /* Add some space between the icon and title */
-}
-body.light #menu-toggle{
-     color: #1a1a3d;
-}
-
-#theme-toggle, #clear-chat, #new-chat-button {
-    background: none;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-    padding: 8px;
-    transition: transform 0.3s ease, color 0.3s ease;
-    display: block; /* Make buttons stack vertically */
-    width: 100%;
-    text-align: left;
-    padding: 12px 16px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-body.light #theme-toggle, body.light #clear-chat, body.light #new-chat-button {
-    color: #1a1a3d;
-     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-#theme-toggle:hover, #clear-chat:hover, #new-chat-button:hover {
-    transform: scale(1.05);
-    background-color: rgba(255,255,255, 0.1);
-}
-body.light #theme-toggle:hover, body.light #clear-chat:hover, body.light #new-chat-button:hover{
-    background-color: rgba(0, 0, 0, 0.05);
-}
-
-.chat-box {
-    flex: 1;
-    padding: 20px;
-    overflow-y: auto;
-    background: transparent;
-}
-
+/* Стили для сообщений */
 .message {
-    padding: 12px 18px;
-    margin: 10px 0;
-    border-radius: 15px;
-    max-width: 75%;
-    font-size: 16px;
-    line-height: 1.4;
-    backdrop-filter: blur(5px);
-    transition: transform 0.2s ease;
-    word-wrap: break-word; /* Prevent long words from overflowing */
+  background-color: #282a36; /* Темный фон для блоков сообщений по умолчанию */
+  color: #f8f8f2; /* Светлый текст для сообщений по умолчанию */
+  padding: 10px 15px;
+  border-radius: 15px; /* Скругленные углы сообщений */
+  margin-bottom: 10px;
+  word-wrap: break-word; /* Перенос длинных слов, чтобы не ломать разметку */
 }
 
-.message:hover {
-    transform: translateY(-2px);
+.user-message {
+  background-color: #44475a; /* Чуть более светлый фон для сообщений пользователя */
+  align-self: flex-start; /* Выравниваем сообщения пользователя слева (если используется flexbox) */
 }
 
-.message.user {
-    background: linear-gradient(135deg, #00d4ff, #007aff);
-    color: #fff;
-    margin-left: auto;
+.bot-message {
+  background-color: #282a36; /* Фон для сообщений бота (можно сделать другим) */
+  align-self: flex-end; /* Выравниваем сообщения бота справа (если используется flexbox) */
 }
 
-.message.ai {
-    background: rgba(255, 255, 255, 0.15);
-    color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+/* Поле ввода сообщения */
+.input-area {
+  display: flex;
+  gap: 10px; /* Расстояние между полем ввода и кнопкой */
+  margin-top: 20px;
 }
 
-body.light .message.ai {
-    background: rgba(0, 0, 0, 0.05);
-    color: #1a1a3d;
-    border: 1px solid rgba(0, 0, 0, 0.2);
+.message-input {
+  flex-grow: 1; /* Поле ввода занимает все доступное место */
+  padding: 10px;
+  border: 1px solid #44475a; /* Рамка поля ввода */
+  border-radius: 15px;
+  background-color: #282a36;
+  color: #f8f8f2;
 }
 
-.message.thinking {
-    background: rgba(255, 255, 255, 0.1);
-    color: #ccc;
-    font-style: italic;
-    opacity: 0.8;
+.send-button {
+  padding: 10px 20px;
+  background-color: #bd93f9; /* Фиолетовый акцент по умолчанию */
+  color: #ffffff;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
 }
 
-body.light .message.thinking {
-    background: rgba(0, 0, 0, 0.05);
-    color: #666;
-}
-
-.input-container {
-    display: flex;
-    padding: 20px;
-    background: transparent;
-    position: fixed; /* Stick to the bottom */
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    z-index: 20; /* Ensure input is above the drawer */
-
-}
-
-#user-input {
-    flex: 1;
-    padding: 14px;
-    border: none;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.2);
-    color: #fff;
-    font-size: 16px;
-    outline: none;
-    transition: background 0.3s ease;
-}
-
-#user-input:focus {
-    background: rgba(255, 255, 255, 0.3);
-}
-
-body.light #user-input {
-    background: rgba(255, 255, 255, 0.9);
-    color: #1a1a3d;
-}
-
-body.light #user-input:focus {
-    background: #fff;
-}
-
-.input-container button {
-    margin-left: 10px;
-    padding: 14px;
-    background: linear-gradient(135deg, #ff6bcb, #8b5cf6);
-    color: #fff;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-}
-
-.input-container button:hover {
-    transform: scale(1.05);
-}
-
-/* Navigation Drawer Styles */
-#nav-drawer {
-    position: fixed;
-    top: 0;
-    left: -250px; /* Initially hidden off-screen */
-    width: 250px;
-    height: 100%;
-    background: rgba(25, 25, 45, 0.9); /* Darker background */
-    backdrop-filter: blur(10px);
-    border-right: 1px solid rgba(255, 255, 255, 0.2);
-    z-index: 100; /* Higher z-index to be on top */
-    transition: left 0.3s ease;
-    overflow-y: auto; /* Allow scrolling if content overflows */
-}
-
-body.light #nav-drawer{
-     background: rgba(235, 235, 235, 0.9);
-     border-right: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-#nav-drawer.open {
-    left: 0; /* Slide in from the left */
-}
-
-.nav-header {
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-
-}
-body.light .nav-header{
-     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.nav-header h2 {
-    font-size: 20px;
-    font-weight: 600;
-    color: #fff;
-}
-body.light  .nav-header h2{
- color: #1a1a3d;
-}
-
-#close-drawer {
-    background: none;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-    font-size: 24px;
-    padding: 0;
-}
-body.light #close-drawer{
-    color: #1a1a3d;
-}
-
-#chat-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-#chat-list li {
-    padding: 12px 16px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    color: #fff;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-body.light #chat-list li{
-     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-      color: #1a1a3d;
-}
-
-#chat-list li:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-body.light #chat-list li:hover{
-    background-color: rgba(0, 0, 0, 0.05);
-}
-/* Style the current chat item */
-#chat-list li.current-chat {
-    background-color: rgba(255, 255, 255, 0.2);
-    font-weight: bold;
-}
-body.light #chat-list li.current-chat{
-  background-color: rgba(0, 0, 0, 0.1);
-}
-
-/* Overlay for when the drawer is open */
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
-    z-index: 50; /* Below the drawer, above other content */
-    display: none; /* Initially hidden */
-}
-
-.overlay.open {
-    display: block; /* Show when drawer is open */
+.send-button:hover {
+  background-color: #a37acc; /* Чуть темнее при наведении */
 }
 
 
-/* Responsive adjustments */
-@media (max-width: 480px) {
-    .chat-container {
-        width: 95%;
-        height: 95vh;
-    }
-
-    h1 {
-        font-size: 20px;
-    }
-
-    .chat-box {
-        padding: 15px;
-    }
-
-    .message {
-        font-size: 14px;
-        padding: 10px 14px;
-    }
-
-    #user-input {
-        font-size: 14px;
-        padding: 12px;
-    }
-
-    .input-container button {
-        padding: 12px;
-    }
-     /* Adjust drawer width for smaller screens */
-    #nav-drawer {
-        width: 80%; /* Or whatever width works best */
-        left: -80%;
-    }
+/* --- Белая тема --- */
+body.light-theme {
+  background-color: #f0f0f0; /* Светло-серый фон для белой темы */
+  color: #333333; /* Темно-серый текст для белой темы */
 }
 
-/* Ensure full screen height even with keyboard */
-html, body {
-    height: 100vh;
-    height: -webkit-fill-available; /* For Safari */
+body.light-theme .chat-container {
+  /* Фон контейнера может оставаться прозрачным или стать белым */
+  /* background-color: #ffffff; */
 }
-body {
-    min-height: 100vh;
-    min-height: -webkit-fill-available;
+
+body.light-theme .message {
+  background-color: #ffffff; /* Белый фон для сообщений в белой теме */
+  color: #333333; /* Темный текст для сообщений в белой теме */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Легкая тень для разделения сообщений */
 }
-.chat-container {
-    height: 100vh;
-    height: -webkit-fill-available;
-    max-height: 100vh;
+
+body.light-theme .user-message {
+  background-color: #f8f8f8; /* Чуть более светлый фон для сообщений пользователя в белой теме */
+}
+
+body.light-theme .bot-message {
+  background-color: #ffffff; /* Фон для сообщений бота в белой теме */
+}
+
+body.light-theme .message-input {
+  background-color: #ffffff;
+  color: #333333;
+  border-color: #cccccc;
+}
+
+body.light-theme .send-button {
+  background-color: #ffe0b2; /* Молочный/кремовый акцент для белой темы */
+  color: #333333;
+}
+
+body.light-theme .send-button:hover {
+  background-color: #ffcc80; /* Чуть темнее при наведении */
+}
+
+
+/* --- Серая тема --- */
+body.gray-theme {
+  background-color: #424242; /* Темно-серый фон для серой темы */
+  color: #ffffff; /* Белый текст для серой темы */
+}
+
+body.gray-theme .chat-container {
+  /* Фон контейнера может оставаться прозрачным или стать серым */
+  /* background-color: #616161; */
+}
+
+body.gray-theme .message {
+  background-color: #616161; /* Серый фон для сообщений в серой теме */
+  color: #ffffff; /* Белый текст для сообщений в серой теме */
+}
+
+body.gray-theme .user-message {
+  background-color: #757575; /* Чуть более светлый серый для сообщений пользователя в серой теме */
+}
+
+body.gray-theme .bot-message {
+  background-color: #616161; /* Фон для сообщений бота в серой теме */
+}
+
+body.gray-theme .message-input {
+  background-color: #616161;
+  color: #ffffff;
+  border-color: #757575;
+}
+
+body.gray-theme .send-button {
+  background-color: #212121; /* Лунный/черный акцент для серой темы */
+  color: #ffffff;
+}
+
+body.gray-theme .send-button:hover {
+  background-color: #000000; /* Еще темнее при наведении */
 }
