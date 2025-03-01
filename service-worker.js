@@ -1,4 +1,4 @@
-const CACHE_NAME = 'v3'; // КРИТИЧЕСКИ ВАЖНО: Увеличивайте версию при каждом изменении!
+const CACHE_NAME = 'v4'; // КРИТИЧЕСКИ ВАЖНО: Увеличивайте версию при каждом изменении!
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -16,7 +16,8 @@ self.addEventListener('install', (event) => {
           '/icons/icon-96x96.png',
           '/icons/icon-144x144.png',
           '/icons/icon-192x192.png',
-          '/icons/icon-512x512.png'
+          '/icons/icon-512x512.png',
+          'https://fonts.googleapis.com/icon?family=Material+Icons' // Кэшируем иконки
         ]);
       })
       .catch((error) => {
