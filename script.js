@@ -1,34 +1,34 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const themeToggleButtons = document.querySelectorAll('.theme-button');
+    const themeToggleButtons = document.querySelectorAll('.theme-option');
     const body = document.body;
-    const chatMessagesContainer = document.getElementById('chat-messages');
+    const messageArea = document.getElementById('message-area');
     const messageInput = document.getElementById('message-input');
     const sendButton = document.getElementById('send-button');
     const sidebar = document.getElementById('sidebar');
     const sidebarToggleBtn = document.getElementById('sidebar-toggle-btn');
     const closeSidebarBtn = document.getElementById('close-sidebar-btn');
+    const microphoneButton = document.querySelector('.input-action-button.microphone-button');
 
-    // --- База знаний (простые правила для ответов бота) --- (как в предыдущем примере)
+
+    // --- База знаний (простые правила для ответов бота) --- (как в предыдущих примерах)
     const knowledgeBase = { /* ... ваша база знаний ... */ };
+
 
     // --- Переключение тем ---
     themeToggleButtons.forEach(button => {
         button.addEventListener('click', () => {
-            const theme = button.dataset.theme; // Получаем тему из data-theme атрибута
-            body.classList.remove('light-theme', 'dark-theme'); // Убираем все классы тем
-            body.classList.add(`${theme}-theme`); // Добавляем нужный класс темы
+            const theme = button.dataset.theme;
+            body.classList.remove('light-theme', 'dark-theme');
+            body.classList.add(`${theme}-theme`);
 
-            // Убираем класс 'active' со всех кнопок и добавляем на текущую
             themeToggleButtons.forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
 
-            // Сохранение темы в localStorage (необязательно, но полезно)
             localStorage.setItem('theme', theme);
         });
     });
 
-    // --- Загрузка сохраненной темы из localStorage при загрузке страницы ---
-    const savedTheme = localStorage.getItem('theme') || 'dark'; // По умолчанию темная тема, если ничего не сохранено
+    const savedTheme = localStorage.getItem('theme') || 'light'; // По умолчанию светлая тема
     body.classList.add(`${savedTheme}-theme`);
     themeToggleButtons.forEach(button => {
         if (button.dataset.theme === savedTheme) {
@@ -46,7 +46,8 @@ document.addEventListener('DOMContentLoaded', () => {
         sidebar.classList.remove('open');
     });
 
-    // --- Отправка сообщений (как в предыдущем примере) ---
+
+    // --- Отправка сообщений (как в предыдущих примерах) ---
     sendButton.addEventListener('click', sendMessage);
     messageInput.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
@@ -55,5 +56,49 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    function sendMessage() { /* ... функция sendMessage из предыдущего примера ... */ }
+    function sendMessage() {
+        const messageText = messageInput.value.trim().toLowerCase();
+        if (messageText !== "") {
+            // Сообщение пользователя
+            const userMessageDiv = document.createElement('div');
+            userMessageDiv.classList.add('message', 'user-message');
+            userMessageDiv.textContent = messageInput.value;
+            messageArea.appendChild(userMessageDiv);
+
+            messageInput.value = "";
+            messageArea.scrollTop = messageArea.scrollHeight;
+
+
+            // --- Имитация ответа бота ---
+            let botResponse = knowledgeBase[messageText];
+
+            if (!botResponse) {
+                botResponse = knowledgeBase["по умолчанию"]; // Ответ по умолчанию
+            }
+
+
+            setTimeout(() => {
+                const botMessageDiv = document.createElement('div');
+                botMessageDiv.classList.add('message', 'bot-message');
+                botMessageDiv.textContent = botResponse;
+                messageArea.appendChild(botMessageDiv);
+                messageArea.scrollTop = messageArea.scrollHeight;
+            }, 500);
+        }
+    }
+
+
+    // --- Анимация кнопки микрофона ---
+    if (microphoneButton) {
+        microphoneButton.addEventListener('click', () => {
+            microphoneButton.classList.toggle('active');
+            if (microphoneButton.classList.contains('active')) {
+                console.log("Голосовой ввод включен (имитация)");
+            } else {
+                console.log("Голосовой ввод выключен (имитация)");
+            }
+        });
+    }
+
+
 });
