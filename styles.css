@@ -1,4 +1,4 @@
-/* (Ваш оригинальный styles.css - без критических изменений, влияющих на PWA) */
+/* (Previous styles from your original CSS, plus additions below) */
 * {
     margin: 0;
     padding: 0;
@@ -14,6 +14,7 @@ body {
     align-items: center;
     padding: 15px;
     transition: background 0.5s ease;
+    overflow: hidden; /* Prevent scrollbars on the body */
 }
 
 body.light {
@@ -33,6 +34,7 @@ body.light {
     max-height: 900px;
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative; /* Needed for the drawer positioning */
 }
 
 body.light .chat-container {
@@ -58,27 +60,52 @@ h1 {
     font-weight: 700;
     color: #fff;
     letter-spacing: 0.5px;
+    flex-grow: 1; /* Allow h1 to take available space */
+    text-align: center; /* Center the title */
 }
 
 body.light h1 {
     color: #1a1a3d;
 }
 
-#theme-toggle, #clear-chat {
+#menu-toggle {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 24px; /* Larger icon */
+    padding: 0;
+    margin-right: 10px; /* Add some space between the icon and title */
+}
+body.light #menu-toggle{
+     color: #1a1a3d;
+}
+
+#theme-toggle, #clear-chat, #new-chat-button {
     background: none;
     border: none;
     color: #fff;
     cursor: pointer;
     padding: 8px;
     transition: transform 0.3s ease, color 0.3s ease;
+    display: block; /* Make buttons stack vertically */
+    width: 100%;
+    text-align: left;
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-body.light #theme-toggle, body.light #clear-chat {
+body.light #theme-toggle, body.light #clear-chat, body.light #new-chat-button {
     color: #1a1a3d;
+     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-#theme-toggle:hover, #clear-chat:hover {
-    transform: scale(1.1);
+#theme-toggle:hover, #clear-chat:hover, #new-chat-button:hover {
+    transform: scale(1.05);
+    background-color: rgba(255,255,255, 0.1);
+}
+body.light #theme-toggle:hover, body.light #clear-chat:hover, body.light #new-chat-button:hover{
+    background-color: rgba(0, 0, 0, 0.05);
 }
 
 .chat-box {
@@ -97,6 +124,7 @@ body.light #theme-toggle, body.light #clear-chat {
     line-height: 1.4;
     backdrop-filter: blur(5px);
     transition: transform 0.2s ease;
+    word-wrap: break-word; /* Prevent long words from overflowing */
 }
 
 .message:hover {
@@ -137,6 +165,12 @@ body.light .message.thinking {
     display: flex;
     padding: 20px;
     background: transparent;
+    position: fixed; /* Stick to the bottom */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 20; /* Ensure input is above the drawer */
+
 }
 
 #user-input {
@@ -179,7 +213,116 @@ body.light #user-input:focus {
     transform: scale(1.05);
 }
 
-/* Адаптивность */
+/* Navigation Drawer Styles */
+#nav-drawer {
+    position: fixed;
+    top: 0;
+    left: -250px; /* Initially hidden off-screen */
+    width: 250px;
+    height: 100%;
+    background: rgba(25, 25, 45, 0.9); /* Darker background */
+    backdrop-filter: blur(10px);
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    z-index: 100; /* Higher z-index to be on top */
+    transition: left 0.3s ease;
+    overflow-y: auto; /* Allow scrolling if content overflows */
+}
+
+body.light #nav-drawer{
+     background: rgba(235, 235, 235, 0.9);
+     border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+#nav-drawer.open {
+    left: 0; /* Slide in from the left */
+}
+
+.nav-header {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+
+}
+body.light .nav-header{
+     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.nav-header h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #fff;
+}
+body.light  .nav-header h2{
+ color: #1a1a3d;
+}
+
+#close-drawer {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 24px;
+    padding: 0;
+}
+body.light #close-drawer{
+    color: #1a1a3d;
+}
+
+#chat-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#chat-list li {
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+body.light #chat-list li{
+     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      color: #1a1a3d;
+}
+
+#chat-list li:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+body.light #chat-list li:hover{
+    background-color: rgba(0, 0, 0, 0.05);
+}
+/* Style the current chat item */
+#chat-list li.current-chat {
+    background-color: rgba(255, 255, 255, 0.2);
+    font-weight: bold;
+}
+body.light #chat-list li.current-chat{
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Overlay for when the drawer is open */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    z-index: 50; /* Below the drawer, above other content */
+    display: none; /* Initially hidden */
+}
+
+.overlay.open {
+    display: block; /* Show when drawer is open */
+}
+
+
+/* Responsive adjustments */
 @media (max-width: 480px) {
     .chat-container {
         width: 95%;
@@ -207,4 +350,24 @@ body.light #user-input:focus {
     .input-container button {
         padding: 12px;
     }
+     /* Adjust drawer width for smaller screens */
+    #nav-drawer {
+        width: 80%; /* Or whatever width works best */
+        left: -80%;
+    }
+}
+
+/* Ensure full screen height even with keyboard */
+html, body {
+    height: 100vh;
+    height: -webkit-fill-available; /* For Safari */
+}
+body {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+}
+.chat-container {
+    height: 100vh;
+    height: -webkit-fill-available;
+    max-height: 100vh;
 }
