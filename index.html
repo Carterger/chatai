@@ -3,80 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Новый Чат</title>
+    <meta name="theme-color" content="#ffffff">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="assets/favicon.ico">
+    <title>Чат-бот PWA</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<body class="light-theme"> <!-- По умолчанию светлая тема -->
-
+<body class="light-theme">
     <div class="chat-app">
-
-        <aside class="sidebar" id="sidebar">
+        <!-- Боковая панель -->
+        <div class="sidebar">
             <div class="sidebar-header">
-                <button class="close-sidebar-btn" id="close-sidebar-btn"><i class="fas fa-arrow-left"></i></button>
                 <h3>Настройки</h3>
+                <button class="close-sidebar-btn">&times;</button>
             </div>
             <div class="sidebar-content">
                 <div class="theme-switcher">
-                    <h4>Тема</h4>
+                    <h4>Выберите тему</h4>
                     <div class="theme-options">
-                        <button class="theme-option light-theme-btn active" data-theme="light">
-                            <i class="fas fa-sun"></i> Светлая
-                        </button>
-                        <button class="theme-option dark-theme-btn" data-theme="dark">
-                            <i class="fas fa-moon"></i> Темная
-                        </button>
+                        <button class="theme-option active">Светлая тема <i class="fas fa-sun"></i></button>
+                        <button class="theme-option dark-theme-btn">Темная тема <i class="fas fa-moon"></i></button>
                     </div>
                 </div>
-                <!-- Другие настройки можно добавить здесь -->
             </div>
-        </aside>
+        </div>
 
-        <main class="chat-container">
-            <header class="chat-header">
-                <button class="sidebar-toggle-btn" id="sidebar-toggle-btn">
-                    <i class="fas fa-cog"></i> <!-- Иконка настроек вместо меню -->
-                </button>
-                <div class="chat-title">Новый Чат</div>
-            </header>
-
-            <div class="message-area" id="message-area">
-                <!-- Сообщения будут здесь -->
-                <div class="message bot-message">
-                    Привет! Как я могу вам помочь сегодня?
-                </div>
+        <!-- Основная область чата -->
+        <div class="chat-container">
+            <div class="chat-header">
+                <button class="sidebar-toggle-btn">&#9776;</button>
+                <span class="chat-title">Чат-бот</span>
             </div>
-
-            <footer class="input-area">
+            <div class="message-area">
+                <div id="messages"></div>
+            </div>
+            <div class="input-area">
                 <div class="input-actions">
-                    <button class="input-action-button"><i class="fas fa-paperclip"></i></button>
                     <button class="input-action-button microphone-button"><i class="fas fa-microphone"></i></button>
                 </div>
                 <div class="input-field">
-                    <input type="text" id="message-input" placeholder="Введите сообщение...">
+                    <input type="text" id="user-input" placeholder="Напишите сообщение...">
                 </div>
-                <button class="send-button" id="send-button">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
-            </footer>
-        </main>
-
+                <button class="send-button" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
     <script src="script.js"></script>
-    <script>
-        // Регистрация service worker (если нужно PWA)
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/service-worker.js')
-                    .then(registration => {
-                        console.log('Service Worker registered: ', registration);
-                    }).catch(registrationError => {
-                        console.log('Service Worker registration failed: ', registrationError);
-                    });
-            });
-        }
-    </script>
-
 </body>
 </html>

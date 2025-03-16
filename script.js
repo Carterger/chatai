@@ -1,104 +1,52 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const themeToggleButtons = document.querySelectorAll('.theme-option');
-    const body = document.body;
-    const messageArea = document.getElementById('message-area');
-    const messageInput = document.getElementById('message-input');
-    const sendButton = document.getElementById('send-button');
-    const sidebar = document.getElementById('sidebar');
-    const sidebarToggleBtn = document.getElementById('sidebar-toggle-btn');
-    const closeSidebarBtn = document.getElementById('close-sidebar-btn');
-    const microphoneButton = document.querySelector('.input-action-button.microphone-button');
+// script.js
 
-
-    // --- База знаний (простые правила для ответов бота) --- (как в предыдущих примерах)
-    const knowledgeBase = { /* ... ваша база знаний ... */ };
-
-
-    // --- Переключение тем ---
-    themeToggleButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const theme = button.dataset.theme;
-            body.classList.remove('light-theme', 'dark-theme');
-            body.classList.add(`${theme}-theme`);
-
-            themeToggleButtons.forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-
-            localStorage.setItem('theme', theme);
-        });
+// Переключение темы
+document.querySelectorAll('.theme-option').forEach(button => {
+    button.addEventListener('click', () => {
+        document.body.classList.toggle('dark-theme');
+        document.querySelector('.theme-option.active')?.classList.remove('active');
+        button.classList.add('active');
     });
-
-    const savedTheme = localStorage.getItem('theme') || 'light'; // По умолчанию светлая тема
-    body.classList.add(`${savedTheme}-theme`);
-    themeToggleButtons.forEach(button => {
-        if (button.dataset.theme === savedTheme) {
-            button.classList.add('active');
-        }
-    });
-
-
-    // --- Открытие/закрытие боковой панели ---
-    sidebarToggleBtn.addEventListener('click', () => {
-        sidebar.classList.add('open');
-    });
-
-    closeSidebarBtn.addEventListener('click', () => {
-        sidebar.classList.remove('open');
-    });
-
-
-    // --- Отправка сообщений (как в предыдущих примерах) ---
-    sendButton.addEventListener('click', sendMessage);
-    messageInput.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter') {
-            sendMessage();
-            event.preventDefault();
-        }
-    });
-
-    function sendMessage() {
-        const messageText = messageInput.value.trim().toLowerCase();
-        if (messageText !== "") {
-            // Сообщение пользователя
-            const userMessageDiv = document.createElement('div');
-            userMessageDiv.classList.add('message', 'user-message');
-            userMessageDiv.textContent = messageInput.value;
-            messageArea.appendChild(userMessageDiv);
-
-            messageInput.value = "";
-            messageArea.scrollTop = messageArea.scrollHeight;
-
-
-            // --- Имитация ответа бота ---
-            let botResponse = knowledgeBase[messageText];
-
-            if (!botResponse) {
-                botResponse = knowledgeBase["по умолчанию"]; // Ответ по умолчанию
-            }
-
-
-            setTimeout(() => {
-                const botMessageDiv = document.createElement('div');
-                botMessageDiv.classList.add('message', 'bot-message');
-                botMessageDiv.textContent = botResponse;
-                messageArea.appendChild(botMessageDiv);
-                messageArea.scrollTop = messageArea.scrollHeight;
-            }, 500);
-        }
-    }
-
-
-    // --- Анимация кнопки микрофона ---
-    if (microphoneButton) {
-        microphoneButton.addEventListener('click', () => {
-            microphoneButton.classList.toggle('active');
-            if (microphoneButton.classList.contains('active')) {
-                console.log("Голосовой ввод включен (имитация)");
-            } else {
-                console.log("Голосовой ввод выключен (имитация)");
-            }
-        });
-    }
-
-
 });
+
+// Открытие/закрытие боковой панели
+document.querySelector('.sidebar-toggle-btn').addEventListener('click', () => {
+    document.querySelector('.sidebar').classList.toggle('open');
+});
+
+document.querySelector('.close-sidebar-btn').addEventListener('click', () => {
+    document.querySelector('.sidebar').classList.remove('open');
+});
+
+// Чат-бот
+function sendMessage() {
+    const userInput = document.getElementById('user-input').value;
+    if (!userInput.trim()) return;
+
+    addMessage('user-message', userInput);
+
+    // Имитация ответа бота
+    setTimeout(() => {
+        addMessage('bot-message', 'Вы написали: ' + userInput);
+    }, 1000);
+
+    document.getElementById('user-input').value = '';
+}
+
+function addMessage(type, text) {
+    const messageArea = document.getElementById('messages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'message ' + type;
+    messageDiv.textContent = text;
+    messageArea.appendChild(messageDiv);
+    messageArea.scrollTop = messageArea.scrollHeight;
+}
+
+// Регистрация Service Worker
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+            .then(registration => console.log('Service Worker registered:', registration))
+            .catch(error => console.error('Service Worker registration failed:', error));
+    });
+}
