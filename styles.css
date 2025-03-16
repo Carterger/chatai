@@ -1,5 +1,4 @@
 /* styles.css */
-
 /* ========================= Общие стили ========================= */
 body {
     font-family: 'Roboto', sans-serif; /* Современный шрифт Roboto */
@@ -115,12 +114,14 @@ body {
     opacity: 0.8;
 }
 
-.theme-option.active, .theme-option:hover {
+.theme-option.active,
+.theme-option:hover {
     background-color: #e0e0e0; /* Более светлый фон активной/hover кнопки темы */
     color: #333; /* Темный текст активной/hover кнопки темы */
 }
 
-.theme-option.dark-theme-btn.active, .theme-option.dark-theme-btn:hover {
+.theme-option.dark-theme-btn.active,
+.theme-option.dark-theme-btn:hover {
     background-color: #333; /* Темный фон активной/hover темной темы */
     color: #fff; /* Белый текст активной/hover темной темы */
 }
@@ -235,7 +236,8 @@ body {
     transition: opacity 0.2s ease, color 0.3s ease, transform 0.1s ease;
 }
 
-.input-action-button:hover, .input-action-button.microphone-button.active {
+.input-action-button:hover,
+.input-action-button.microphone-button.active {
     opacity: 1;
     color: #555;
 }
@@ -271,7 +273,6 @@ body {
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.08), 0 0 5px rgba(0, 0, 0, 0.08); /* Более выраженная тень при фокусе */
 }
 
-
 .send-button {
     background-color: #007bff; /* Синий цвет кнопки отправки (акцентный) */
     color: #fff;
@@ -293,7 +294,6 @@ body {
     transform: scale(1.05);
 }
 
-
 /* ========================= Темная тема ========================= */
 body.dark-theme {
     color: #eee; /* Светлый текст для темной темы */
@@ -311,7 +311,8 @@ body.dark-theme .theme-option {
     color: #eee; /* Светлый текст кнопок тем в темной теме */
 }
 
-body.dark-theme .theme-option.active, body.dark-theme .theme-option:hover {
+body.dark-theme .theme-option.active,
+body.dark-theme .theme-option:hover {
     background-color: #444; /* Более темный фон активной/hover кнопки темы в темной теме */
     color: #fff; /* Белый текст активной/hover кнопки темы в темной теме */
 }
@@ -351,7 +352,6 @@ body.dark-theme .bot-message {
     color: #eee; /* Светлый текст сообщений бота в темной теме */
 }
 
-
 body.dark-theme .input-area {
     background-color: #222; /* Темный фон области ввода в темной теме */
     border-top-color: #333; /* Более темная граница сверху области ввода в темной теме */
@@ -381,13 +381,12 @@ body.dark-theme .send-button:hover {
     background-color: #1ea7b5; /* Более темный бирюзовый цвет при hover в темной теме */
 }
 
-
 /* ========================= Медиа-запросы для адаптивности ========================= */
-
 @media (max-width: 768px) {
     .chat-app {
         flex-direction: column;
     }
+
     .sidebar {
         width: 100%;
         height: auto;
@@ -397,47 +396,54 @@ body.dark-theme .send-button:hover {
         order: 1;
         padding: 15px;
     }
+
     .sidebar.open {
         transform: translateX(0);
     }
+
     .chat-container {
         order: 2;
     }
+
     .chat-header {
         justify-content: space-between;
     }
+
     .sidebar-toggle-btn {
         margin-right: 0;
     }
+
     .chat-title {
         font-size: 1.1em;
     }
+
     .message-area {
         padding: 15px;
     }
+
     .input-area {
         padding: 10px 15px;
     }
+
     .message {
         max-width: 90%;
         padding: 12px 18px;
         font-size: 0.95em;
     }
+
     .input-field input[type="text"] {
         padding: 12px 18px;
         font-size: 0.95em;
     }
-    .input-action-button, .send-button {
+
+    .input-action-button,
+    .send-button {
         font-size: 1.3em;
         margin-right: 10px;
     }
+
     .send-button {
         width: 40px;
         height: 40px;
     }
-}
-
-/* ========================= Стили для иконок Font Awesome ========================= */
-.fas {
-    /* Общие стили для иконок, если нужно */
 }
